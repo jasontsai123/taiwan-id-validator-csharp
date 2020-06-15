@@ -38,32 +38,23 @@
 export function isGuiNumberValid(input: string | number): boolean {
   const GUI_NUMBER_COEFFICIENTS = [1, 2, 1, 2, 1, 2, 4, 1]
 
-  try {
-    const n = input.toString()
-    const regex: RegExp = /^\d{8}$/
+  const n = input.toString()
+  const regex: RegExp = /^\d{8}$/
 
-    if (!regex.test(n)) {
-      throw new Error('GUI number should be a 8-digit string.')
-    }
+  const checksum = GUI_NUMBER_COEFFICIENTS.reduce((sum, c, index) => {
+    const product = c * parseInt(n.charAt(index), 10) // Step 1
+    return sum + (product % 10) + Math.floor(product / 10) // Step 2
+  }, 0)
 
-    const checksum = GUI_NUMBER_COEFFICIENTS.reduce((sum, c, index) => {
-      const product = c * parseInt(n.charAt(index), 10) // Step 1
-      return sum + (product % 10) + Math.floor(product / 10) // Step 2
-    }, 0)
-
-    if (
-      // Step 3 & Step 4
-      checksum % 10 === 0 ||
-      (parseInt(n.charAt(6), 10) === 7 && (checksum + 1) % 10 === 0)
-    ) {
-      return true
-    }
-
-    return false
-  } catch (e) {
-    console.error(e.message)
-    return false
+  if (
+    // Step 3 & Step 4
+    checksum % 10 === 0 ||
+    (parseInt(n.charAt(6), 10) === 7 && (checksum + 1) % 10 === 0)
+  ) {
+    return true
   }
+
+  return false
 }
 
 /**
@@ -85,22 +76,12 @@ export function isGuiNumberValid(input: string | number): boolean {
  * @returns { boolean }
  */
 export function isNationalIdentificationNumberValid(input: string): boolean {
-  try {
-    if (typeof input !== 'string') {
-      throw new Error('Input type should be string.')
-    }
-
-    const regex: RegExp = /^[A-Z][1,2]\d{8}$/
-
-    if (!regex.test(input)) {
-      throw new Error('National identification number format incorrect.')
-    }
-
-    return verifyTaiwanIdIntermediateString(input)
-  } catch (e) {
-    console.error(e.message)
+  const regex: RegExp = /^[A-Z][1,2]\d{8}$/
+  if (!regex.test(input)) {
     return false
   }
+
+  return verifyTaiwanIdIntermediateString(input)
 }
 
 /**
@@ -122,22 +103,12 @@ export function isNationalIdentificationNumberValid(input: string): boolean {
  * @returns { boolean }
  */
 export function isResidentCertificateNumberValid(input: string): boolean {
-  try {
-    if (typeof input !== 'string') {
-      throw new Error('Input type should be string.')
-    }
-
-    const regex: RegExp = /^[A-Z]{2}\d{8}$/
-
-    if (!regex.test(input)) {
-      throw new Error('Resident certificate number format incorrect.')
-    }
-
-    return verifyTaiwanIdIntermediateString(input)
-  } catch (e) {
-    console.error(e.message)
+  const regex: RegExp = /^[A-Z]{2}\d{8}$/
+  if (!regex.test(input)) {
     return false
   }
+
+  return verifyTaiwanIdIntermediateString(input)
 }
 
 /**
@@ -147,23 +118,8 @@ export function isResidentCertificateNumberValid(input: string): boolean {
  * @returns { boolean }
  */
 export function isCitizenDigitalCertificateValid(input: string): boolean {
-  try {
-    if (typeof input !== 'string') {
-      throw new Error('Input type should be string.')
-    }
-
-    const n = input.toString()
-    const regex: RegExp = /^[A-Z]{2}\d{14}$/
-
-    if (!regex.test(n)) {
-      throw new Error('Citizen digital certificate format incorrect.')
-    }
-
-    return true
-  } catch (e) {
-    console.error(e.message)
-    return false
-  }
+  const regex: RegExp = /^[A-Z]{2}\d{14}$/
+  return regex.test(input)
 }
 
 /**
@@ -175,23 +131,8 @@ export function isCitizenDigitalCertificateValid(input: string): boolean {
  * @returns { boolean }
  */
 export function isEInvoiceCellPhoneBarcodeValid(input: string): boolean {
-  try {
-    if (typeof input !== 'string') {
-      throw new Error('Input type should be string.')
-    }
-
-    const n = input.toString()
-    const regex: RegExp = /^\/[\dA-Z.\-+]{7}$/
-
-    if (!regex.test(n)) {
-      throw new Error('E-Invoice cell phone barcode format incorrect.')
-    }
-
-    return true
-  } catch (e) {
-    console.error(e.message)
-    return false
-  }
+  const regex: RegExp = /^\/[\dA-Z.\-+]{7}$/
+  return regex.test(input)
 }
 
 /**
@@ -201,23 +142,8 @@ export function isEInvoiceCellPhoneBarcodeValid(input: string): boolean {
  * @returns { boolean }
  */
 export function isEInvoiceDonateCodeValid(input: string): boolean {
-  try {
-    if (typeof input !== 'string') {
-      throw new Error('Input type should be string.')
-    }
-
-    const n = input.toString()
-    const regex: RegExp = /^[\d]{3,7}$/
-
-    if (!regex.test(n)) {
-      throw new Error('E-Invoice donate code format incorrect.')
-    }
-
-    return true
-  } catch (e) {
-    console.error(e.message)
-    return false
-  }
+  const regex: RegExp = /^[\d]{3,7}$/
+  return regex.test(input)
 }
 
 /**
@@ -312,5 +238,6 @@ function verifyTaiwanIdIntermediateString(input: string): boolean {
   if (result % 10 === 0) {
     return true
   }
+
   return false
 }
