@@ -1,4 +1,4 @@
-# taiwan-id-validator
+# taiwan-id-validator2
 
 ## Features
 
@@ -12,7 +12,7 @@
 ## Installation
 
 ```bash
-npm i -S taiwan-id-validator
+npm i -S taiwan-id-validator2
 ```
 
 ## Usage
@@ -20,7 +20,7 @@ npm i -S taiwan-id-validator
 ```js
 // index.js
 
-var taiwanIdValidator = require("taiwan-id-validator");
+var taiwanIdValidator = require("taiwan-id-validator2");
 
 console.log(taiwanIdValidator.isGuiNumberValid('12345675')); // 統一編號
 console.log(taiwanIdValidator.isNationalIdentificationNumberValid('A12345678')); // 身分證字號
@@ -50,7 +50,7 @@ import {
   isCitizenDigitalCertificateValid, // 自然人憑證
   isEInvoiceCellPhoneBarcodeValid, // 手機條碼
   isEInvoiceDonateCodeValid // 捐贈碼
-} from 'taiwan-id-validator'
+} from 'taiwan-id-validator2'
 
 console.log(isGuiNumberValid('12345675'))
 console.log(isNationalIdentificationNumberValid('A12345678'))

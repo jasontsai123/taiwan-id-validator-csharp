@@ -16,3 +16,4 @@ node_modules/
 .idea
 dist
 feature
+package-lock.json
