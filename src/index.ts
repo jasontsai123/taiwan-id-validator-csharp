@@ -76,7 +76,7 @@ export function isGuiNumberValid(input: string | number): boolean {
  * @returns { boolean }
  */
 export function isNationalIdentificationNumberValid(input: string): boolean {
-  const regex: RegExp = /^[A-Z][1,2]\d{8}$/
+  const regex: RegExp = /^[A-Z][1,2,8,9]\d{8}$/
   if (!regex.test(input)) {
     return false
   }

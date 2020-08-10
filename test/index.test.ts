@@ -48,6 +48,14 @@ describe('isNationalIdentificationNumberValid', () => {
     expect(isNationalIdentificationNumberValid('L122544270')).toBe(true)
     expect(isNationalIdentificationNumberValid('C180661564')).toBe(true)
     expect(isNationalIdentificationNumberValid('Y123456788')).toBe(true)
+    expect(isNationalIdentificationNumberValid('A800000014')).toBe(true)
+    expect(isNationalIdentificationNumberValid('A900000016')).toBe(true)
+    expect(isNationalIdentificationNumberValid('A870000015')).toBe(true)
+    expect(isNationalIdentificationNumberValid('A970000017')).toBe(true)
+    expect(isNationalIdentificationNumberValid('A880000018')).toBe(true)
+    expect(isNationalIdentificationNumberValid('A980000010')).toBe(true)
+    expect(isNationalIdentificationNumberValid('A890000011')).toBe(true)
+    expect(isNationalIdentificationNumberValid('A990000013')).toBe(true)
   })
 
   it('should return false if the input is incorrect', () => {
