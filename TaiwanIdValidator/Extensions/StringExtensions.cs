@@ -23,11 +23,11 @@ public static partial class StringExtensions
     }
     
     /// <summary>
-    /// Verify the input is a valid Resident certificate number (外僑及大陸人士在台居留證、旅行證統一證號)
+    /// Verify the input is a valid Resident certificate number (舊式外僑及大陸人士在台居留證、旅行證統一證號)
     /// </summary>
     /// <param name="input"></param>
     /// <returns>bool</returns>
-    public static bool IsResidentCertificateNumberValid(this string input)
+    public static bool IsOriginalResidentCertificateNumberValid(this string input)
     {
         return VerifyTaiwanIdIntermediateString(input);
     }
