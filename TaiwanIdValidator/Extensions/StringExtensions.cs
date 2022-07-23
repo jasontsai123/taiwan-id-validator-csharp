@@ -6,12 +6,47 @@ public static partial class StringExtensions
 {
     /// <summary>
     /// Verify the input is a valid GUI Number (中華民國統一編號)
+    /// <para>Step 1: 先把統一編號的每個數字分別乘上對應的係數 (1, 2, 1, 2, 1, 2, 4, 1)</para>
+    /// <para>Step 2: 再把個別乘積的十位數與個位數相加，得出八個小於 10 的數字</para>
+    /// <para>Step 3: 檢查把這 8 個數字相加之後計算此和除以 5(112年4月以後的規則) or 10 的餘數</para>
+    /// <para>
+    /// Step 4:
+    /// <code>
+    ///     4-1: 若是餘數為 0，則為正確的統一編號
+    ///     4-2: 若是餘數為 9，且原統一編號的第七位是 7，則也為正確的統一編號
+    /// </code>
+    /// </para>
     /// </summary>
     /// <param name="input"></param>
     /// <returns>bool</returns>
     public static bool IsGuiNumberValid(this string input)
     {
-        return false;
+        if (new Regex("^\\d{8}$").IsMatch(input) == false)
+        {
+            return false;
+        }
+
+        var numericalValueArray = input.Select(c => int.Parse(c.ToString())).ToArray();
+        // 邏輯乘數
+        var multipliers = new List<int> { 1, 2, 1, 2, 1, 2, 4, 1 };
+        var checksum = multipliers
+            .Select(
+                (multiplier, index) =>
+                {
+                    // 乘積
+                    var product = numericalValueArray[index] * multiplier;
+                    // 乘積之和
+                    return (product % 10) + Math.Floor(product / 10m);
+                }
+            )
+            .Sum();
+        
+        // 預計112年4月以後，檢查邏輯由可被『10』整除改為可被『5』整除。
+        var divisor = DateTime.Now >= DateTime.Parse("2023/04/01") ? 5 : 10;
+
+        // Step 3 & Step 4
+        var secondLast = numericalValueArray[6];
+        return checksum % divisor == 0 || (secondLast == 7 && (checksum + 1) % divisor == 0);
     }
 
     /// <summary>
@@ -167,7 +202,7 @@ public static partial class StringExtensions
             .Replace(firstEngLetter, CityCodeDic[firstEngLetter]) // 首碼英文代碼轉換為縣市對應數值
             .Select(c => int.Parse(c.ToString()))
             .ToArray();
-        
+
         // 權重表
         var weights = new int[] { 1, 9, 8, 7, 6, 5, 4, 3, 2, 1, 1 };
         // 套入公式 (n0×1 + n1×9 + n2×8 + n3×7 + n4×6 + n5×5 + n6×4 + n7×3 + n8×2 + n9×1 + n10×1) % 10 = 0
