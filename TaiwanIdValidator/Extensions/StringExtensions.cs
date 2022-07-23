@@ -68,12 +68,13 @@ public static partial class StringExtensions
 
     /// <summary>
     /// Verify the input is a valid E-Invoice donate code (電子發票捐贈碼)
+    /// <para>總長度為 3~7 碼 0~9 的數字</para>
     /// </summary>
     /// <param name="input"></param>
     /// <returns>bool</returns>
     public static bool IsEInvoiceDonateCodeValid(this string input)
     {
-        return false;
+        return new Regex("^[\\d]{3,7}$").IsMatch(input);
     }
 
     /// <summary>
