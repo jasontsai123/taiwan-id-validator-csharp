@@ -55,12 +55,15 @@ public static partial class StringExtensions
 
     /// <summary>
     /// Verify the input is a valid E-Invoice cell phone barcode (電子發票手機條碼)
+    /// <para>總長度為 8 碼</para>
+    /// <para>第 1 碼為 /</para>
+    /// <para>第 2~8 碼由 0~9 (數字), A-Z (大寫英文字母), .(period), -(hyphen), +(plus) 組成</para>
     /// </summary>
     /// <param name="input"></param>
     /// <returns>bool</returns>
     public static bool IsEInvoiceCellPhoneBarcodeValid(this string input)
     {
-        return false;
+        return new Regex("^\\/[\\dA-Z.\\-+]{7}$").IsMatch(input);
     }
 
     /// <summary>
