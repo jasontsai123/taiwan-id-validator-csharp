@@ -44,12 +44,13 @@ public static partial class StringExtensions
 
     /// <summary>
     /// Verify the input is a valid citizen digital certificate (自然人憑證)
+    /// <para>驗證規則為兩碼英文 + 14 碼數字</para>
     /// </summary>
     /// <param name="input"></param>
     /// <returns>bool</returns>
     public static bool IsCitizenDigitalCertificateValid(this string input)
     {
-        return false;
+        return new Regex("^([A-Z]{2})(\\d{14})$").IsMatch(input);
     }
 
     /// <summary>
