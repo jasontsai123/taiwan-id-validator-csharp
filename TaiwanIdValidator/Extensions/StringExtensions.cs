@@ -40,7 +40,7 @@ public static partial class StringExtensions
                 }
             )
             .Sum();
-        
+
         // 預計112年4月以後，檢查邏輯由可被『10』整除改為可被『5』整除。
         var divisor = DateTime.Now >= DateTime.Parse("2023/04/01") ? 5 : 10;
 
@@ -68,12 +68,20 @@ public static partial class StringExtensions
     }
 
     /// <summary>
-    /// Verify the input is a valid Resident certificate number (舊式外僑及大陸人士在台居留證、旅行證統一證號)
+    /// Verify the input is a valid Resident certificate number (外僑及大陸人士在台居留證、旅行證統一證號)
+    /// <para>Step 1: 首碼英文代碼轉換為數值，第二位英文字母按上表轉換為對應數值的個位數</para>
+    /// <para>Step 2: 再把每一個數字依序乘上1、9、8、7、6、5、4、3、2、1、1</para>
+    /// <para>Step 3: 套入公式 (n0×1 + n1×9 + n2×8 + n3×7 + n4×6 + n5×5 + n6×4 + n7×3 + n8×2 + n9×1 + n10×1) % 10 = 0</para>
     /// </summary>
     /// <param name="input"></param>
     /// <returns>bool</returns>
-    public static bool IsOriginalResidentCertificateNumberValid(this string input)
+    public static bool IsResidentCertificateNumberValid(this string input)
     {
+        if (new Regex("^([A-Z])(A|B|C|D|8|9)(\\d{8})$").IsMatch(input) == false)
+        {
+            return false;
+        }
+
         return VerifyTaiwanIdIntermediateString(input);
     }
 
@@ -188,7 +196,7 @@ public static partial class StringExtensions
     /// <returns>bool</returns>
     private static bool VerifyTaiwanIdIntermediateString(this string id)
     {
-        // if is not a number (居留證編號)
+        // if is not a number (舊版居留證編號)
         var secondChar = id[1];
         if (int.TryParse(secondChar.ToString(), out _) == false)
         {
