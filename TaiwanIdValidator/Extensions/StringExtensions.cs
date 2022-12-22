@@ -42,7 +42,7 @@ public static partial class StringExtensions
             .Sum();
 
         // 預計112年4月以後，檢查邏輯由可被『10』整除改為可被『5』整除。
-        var divisor = DateTime.Now >= DateTime.Parse("2023/04/01") ? 5 : 10;
+        var divisor = 5;
 
         // Step 3 & Step 4
         var secondLast = numericalValueArray[6];
